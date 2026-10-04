@@ -1,0 +1,3999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ShopBook - Shopping & Booking Platform</title>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --primary:#6c5ce7;
+    --primary-dark:#5849d6;
+    --secondary:#00b894;
+    --danger:#e74c3c;
+    --warning:#f39c12;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --sidebar:#111827;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:#334155;
+    --sidebar:#020617;
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:245px;
+    height:100vh;
+    background:var(--sidebar);
+    color:white;
+    padding:25px 18px;
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:40px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:linear-gradient(
+        135deg,
+        #6c5ce7,
+        #a855f7
+    );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin:7px 0;
+}
+
+.menu button{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:#cbd5e1;
+    padding:13px;
+    border-radius:10px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    transition:.3s;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:var(--primary);
+    color:white;
+}
+
+.menu-icon{
+    margin-right:10px;
+}
+
+.logout-area{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    margin-left:245px;
+    min-height:100vh;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    height:75px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.header-title h2{
+    font-size:21px;
+}
+
+.header-title p{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-left:5px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #6c5ce7,
+        #a855f7
+    );
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.profile small{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+    padding:30px;
+}
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+}
+
+.stat-title{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.stat-growth{
+    color:var(--secondary);
+    font-size:11px;
+    margin-top:7px;
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.blue{
+    background:#dbeafe;
+}
+
+.green{
+    background:#dcfce7;
+}
+
+.orange{
+    background:#ffedd5;
+}
+
+.purple{
+    background:#ede9fe;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h3{
+    font-size:17px;
+}
+
+.card-header span{
+    font-size:12px;
+    color:var(--muted);
+}
+
+/* =====================================================
+   PRODUCT GRID
+===================================================== */
+
+.product-toolbar{
+    display:flex;
+    gap:12px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+}
+
+.search-box{
+    flex:1;
+    min-width:240px;
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:13px 15px 13px 40px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.search-icon{
+    position:absolute;
+    left:14px;
+    top:13px;
+}
+
+.category-select{
+    padding:12px 15px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:18px;
+}
+
+.product{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.1);
+}
+
+.product-image{
+    height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
+    position:relative;
+}
+
+.p1{
+    background:linear-gradient(
+        135deg,
+        #dbeafe,
+        #bfdbfe
+    );
+}
+
+.p2{
+    background:linear-gradient(
+        135deg,
+        #fce7f3,
+        #fbcfe8
+    );
+}
+
+.p3{
+    background:linear-gradient(
+        135deg,
+        #dcfce7,
+        #bbf7d0
+    );
+}
+
+.p4{
+    background:linear-gradient(
+        135deg,
+        #fef3c7,
+        #fde68a
+    );
+}
+
+.p5{
+    background:linear-gradient(
+        135deg,
+        #ede9fe,
+        #ddd6fe
+    );
+}
+
+.p6{
+    background:linear-gradient(
+        135deg,
+        #cffafe,
+        #a5f3fc
+    );
+}
+
+.p7{
+    background:linear-gradient(
+        135deg,
+        #fee2e2,
+        #fecaca
+    );
+}
+
+.p8{
+    background:linear-gradient(
+        135deg,
+        #e0e7ff,
+        #c7d2fe
+    );
+}
+
+.wishlist{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    cursor:pointer;
+}
+
+.product-body{
+    padding:15px;
+}
+
+.product-category{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:bold;
+}
+
+.product-name{
+    margin:7px 0;
+    font-size:15px;
+}
+
+.rating{
+    color:#f59e0b;
+    font-size:12px;
+}
+
+.price{
+    font-size:18px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.old-price{
+    color:var(--muted);
+    text-decoration:line-through;
+    font-size:11px;
+    margin-left:5px;
+}
+
+.product-actions{
+    display:flex;
+    gap:7px;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn{
+    border:none;
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-success{
+    background:var(--secondary);
+    color:white;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+.btn-secondary{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.full{
+    width:100%;
+}
+
+/* =====================================================
+   SERVICE BOOKING
+===================================================== */
+
+.service-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+    gap:18px;
+}
+
+.service-card{
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+    background:var(--card);
+    transition:.3s;
+}
+
+.service-card:hover{
+    transform:translateY(-4px);
+}
+
+.service-icon{
+    width:55px;
+    height:55px;
+    border-radius:15px;
+    background:#ede9fe;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    margin-bottom:15px;
+}
+
+.service-card h3{
+    margin-bottom:7px;
+}
+
+.service-card p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+    margin-bottom:15px;
+}
+
+.service-price{
+    font-weight:bold;
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+/* =====================================================
+   CART
+===================================================== */
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.cart-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.cart-icon{
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.qty button{
+    width:27px;
+    height:27px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.cart-summary{
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.total{
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    padding:13px;
+    color:var(--muted);
+    font-size:11px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:14px 13px;
+    border-bottom:1px solid var(--border);
+    font-size:12px;
+}
+
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.completed{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.cancelled{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-content{
+    width:500px;
+    max-width:100%;
+    max-height:90vh;
+    overflow:auto;
+    background:var(--card);
+    color:var(--text);
+    border-radius:18px;
+    padding:25px;
+    animation:modalOpen .25s ease;
+}
+
+@keyframes modalOpen{
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    border:none;
+    background:none;
+    font-size:25px;
+    color:var(--text);
+    cursor:pointer;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-screen{
+    position:fixed;
+    inset:0;
+    background:
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6c5ce7,
+            #8b5cf6
+        );
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-box{
+    width:400px;
+    max-width:100%;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.3);
+}
+
+.login-logo{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.login-logo-icon{
+    width:60px;
+    height:60px;
+    background:#6c5ce7;
+    color:white;
+    border-radius:18px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.login-box h2{
+    margin-top:12px;
+}
+
+.login-box p{
+    color:#6b7280;
+    font-size:12px;
+    margin:7px 0 25px;
+}
+
+.login-box input{
+    width:100%;
+    padding:13px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    outline:none;
+}
+
+.login-btn{
+    width:100%;
+    padding:13px;
+    background:#6c5ce7;
+    color:white;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.demo{
+    margin-top:18px;
+    padding:12px;
+    border-radius:9px;
+    background:#eef2ff;
+    color:#3730a3;
+    font-size:11px;
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#111827;
+    color:white;
+    padding:14px 20px;
+    border-radius:10px;
+    display:none;
+    z-index:99999;
+}
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    text-align:center;
+    padding:50px;
+    color:var(--muted);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1150px){
+
+    .product-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo-text,
+    .menu-text{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu button{
+        text-align:center;
+    }
+
+    .menu-icon{
+        margin:0;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .service-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .content{
+        padding:15px;
+    }
+
+    .header{
+        padding:0 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .product-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .service-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN SCREEN
+===================================================== -->
+
+<div class="login-screen" id="loginScreen">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+
+            <div class="login-logo-icon">
+                🛍️
+            </div>
+
+            <h2>ShopBook</h2>
+
+            <p>
+                Shopping & Booking Platform
+            </p>
+
+        </div>
+
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email address">
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password">
+
+        <button
+            class="login-btn"
+            onclick="login()">
+
+            Login to Dashboard
+
+        </button>
+
+        <div class="demo">
+
+            <b>Demo Login</b><br><br>
+
+            Email:
+            admin@gmail.com
+
+            <br>
+
+            Password:
+            123456
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🛍️
+        </div>
+
+        <span class="logo-text">
+            ShopBook
+        </span>
+
+    </div>
+
+
+    <ul class="menu">
+
+        <li>
+            <button
+                class="active"
+                onclick="showSection('dashboard')">
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                <span class="menu-text">
+                    Dashboard
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('shop')">
+
+                <span class="menu-icon">
+                    🛍️
+                </span>
+
+                <span class="menu-text">
+                    Shopping
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('booking')">
+
+                <span class="menu-icon">
+                    📅
+                </span>
+
+                <span class="menu-text">
+                    Book Services
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('cart')">
+
+                <span class="menu-icon">
+                    🛒
+                </span>
+
+                <span class="menu-text">
+                    Cart
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('orders')">
+
+                <span class="menu-icon">
+                    📦
+                </span>
+
+                <span class="menu-text">
+                    Orders
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('bookings')">
+
+                <span class="menu-icon">
+                    🎫
+                </span>
+
+                <span class="menu-text">
+                    My Bookings
+                </span>
+
+            </button>
+        </li>
+
+
+        <li>
+            <button
+                onclick="showSection('wishlist')">
+
+                <span class="menu-icon">
+                    ❤️
+                </span>
+
+                <span class="menu-text">
+                    Wishlist
+                </span>
+
+            </button>
+        </li>
+
+    </ul>
+
+
+    <div class="logout-area">
+
+        <button
+            class="menu"
+            onclick="logout()">
+
+            <span class="menu-icon">
+                🚪
+            </span>
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+<header class="header">
+
+    <div class="header-title">
+
+        <h2 id="pageTitle">
+            Dashboard
+        </h2>
+
+        <p id="currentDate"></p>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <button
+            class="icon-btn"
+            onclick="toggleDark()">
+
+            🌙
+
+        </button>
+
+
+        <button
+            class="icon-btn"
+            onclick="notifications()">
+
+            🔔
+
+        </button>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                AD
+            </div>
+
+            <div class="profile-info">
+
+                <b>Admin</b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section id="dashboardSection">
+
+<div class="stats">
+
+    <div class="stat-card">
+
+        <div>
+
+            <div class="stat-title">
+                Total Orders
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalOrders">
+                0
+            </div>
+
+            <div class="stat-growth">
+                ↑ 12.4% this month
+            </div>
+
+        </div>
+
+        <div class="stat-icon blue">
+            📦
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div>
+
+            <div class="stat-title">
+                Total Bookings
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalBookings">
+                0
+            </div>
+
+            <div class="stat-growth">
+                ↑ 8.7% this month
+            </div>
+
+        </div>
+
+        <div class="stat-icon green">
+            📅
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div>
+
+            <div class="stat-title">
+                Total Spending
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalSpending">
+                ₹0
+            </div>
+
+            <div class="stat-growth">
+                ↑ 18.5% this month
+            </div>
+
+        </div>
+
+        <div class="stat-icon orange">
+            💰
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div>
+
+            <div class="stat-title">
+                Wishlist Items
+            </div>
+
+            <div
+                class="stat-value"
+                id="wishlistCount">
+                0
+            </div>
+
+            <div class="stat-growth">
+                Saved products
+            </div>
+
+        </div>
+
+        <div class="stat-icon purple">
+            ❤️
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Welcome to ShopBook
+        </h3>
+
+        <span>
+            Smart Shopping Platform
+        </span>
+
+    </div>
+
+    <p style="
+        color:var(--muted);
+        line-height:1.7;
+        font-size:13px">
+
+        Shop products, add items to your cart,
+        book services, manage orders and track
+        your booking history from one platform.
+
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Recent Orders
+        </h3>
+
+        <button
+            class="btn btn-primary"
+            onclick="showSection('orders')">
+
+            View Orders
+
+        </button>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recentOrders"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SHOP
+===================================================== -->
+
+<section
+    id="shopSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h3>
+                Shopping Store
+            </h3>
+
+            <span>
+                Explore our products
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="product-toolbar">
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                id="productSearch"
+                type="text"
+                placeholder="Search products..."
+                onkeyup="renderProducts()">
+
+        </div>
+
+
+        <select
+            id="categoryFilter"
+            class="category-select"
+            onchange="renderProducts()">
+
+            <option value="all">
+                All Categories
+            </option>
+
+            <option value="Electronics">
+                Electronics
+            </option>
+
+            <option value="Fashion">
+                Fashion
+            </option>
+
+            <option value="Home">
+                Home
+            </option>
+
+            <option value="Beauty">
+                Beauty
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        class="product-grid"
+        id="productGrid">
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     BOOK SERVICES
+===================================================== -->
+
+<section
+    id="bookingSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h3>
+                Book a Service
+            </h3>
+
+            <span>
+                Choose a service and schedule it
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="service-grid"
+        id="serviceGrid">
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     CART
+===================================================== -->
+
+<section
+    id="cartSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Shopping Cart
+        </h3>
+
+        <span id="cartCount">
+            0 items
+        </span>
+
+    </div>
+
+
+    <div id="cartItems"></div>
+
+
+    <div
+        class="cart-summary"
+        id="cartSummary"
+        style="display:none">
+
+        <div class="summary-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <b id="subtotal">
+                ₹0
+            </b>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Delivery
+            </span>
+
+            <b>
+                ₹50
+            </b>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Tax
+            </span>
+
+            <b id="tax">
+                ₹0
+            </b>
+
+        </div>
+
+
+        <div class="summary-row total">
+
+            <span>
+                Total
+            </span>
+
+            <span id="cartTotal">
+                ₹0
+            </span>
+
+        </div>
+
+
+        <br>
+
+        <button
+            class="btn btn-success full"
+            onclick="checkout()">
+
+            💳 Proceed to Checkout
+
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ORDERS
+===================================================== -->
+
+<section
+    id="ordersSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h3>
+                My Orders
+            </h3>
+
+            <span>
+                Track your purchases
+            </span>
+
+        </div>
+
+        <button
+            class="btn btn-success"
+            onclick="exportOrders()">
+
+            📥 Export
+
+        </button>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="ordersTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     BOOKINGS
+===================================================== -->
+
+<section
+    id="bookingsSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h3>
+                My Bookings
+            </h3>
+
+            <span>
+                Manage service bookings
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Booking ID</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="bookingsTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     WISHLIST
+===================================================== -->
+
+<section
+    id="wishlistSection"
+    style="display:none">
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+            ❤️ My Wishlist
+        </h3>
+
+        <span>
+            Saved products
+        </span>
+
+    </div>
+
+
+    <div
+        class="product-grid"
+        id="wishlistGrid">
+    </div>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     BOOKING MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="bookingModal">
+
+<div class="modal-content">
+
+    <div class="modal-header">
+
+        <h3>
+            Book Service
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeModal('bookingModal')">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Service
+        </label>
+
+        <input
+            id="bookingService"
+            readonly>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label>
+                Select Date
+            </label>
+
+            <input
+                type="date"
+                id="bookingDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Select Time
+            </label>
+
+            <select id="bookingTime">
+
+                <option>
+                    10:00 AM
+                </option>
+
+                <option>
+                    12:00 PM
+                </option>
+
+                <option>
+                    02:00 PM
+                </option>
+
+                <option>
+                    04:00 PM
+                </option>
+
+                <option>
+                    06:00 PM
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Customer Name
+        </label>
+
+        <input
+            id="bookingName"
+            placeholder="Enter your name">
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Phone Number
+        </label>
+
+        <input
+            id="bookingPhone"
+            placeholder="Enter phone number">
+
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeModal('bookingModal')">
+
+            Cancel
+
+        </button>
+
+        <button
+            class="btn btn-primary"
+            onclick="confirmBooking()">
+
+            Confirm Booking
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     CHECKOUT MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="checkoutModal">
+
+<div class="modal-content">
+
+    <div class="modal-header">
+
+        <h3>
+            Secure Checkout
+        </h3>
+
+        <button
+            class="close"
+            onclick="closeModal('checkoutModal')">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Full Name
+        </label>
+
+        <input
+            id="checkoutName"
+            placeholder="Your name">
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Delivery Address
+        </label>
+
+        <input
+            id="checkoutAddress"
+            placeholder="Enter address">
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Payment Method
+        </label>
+
+        <select id="paymentMethod">
+
+            <option>
+                UPI
+            </option>
+
+            <option>
+                Credit Card
+            </option>
+
+            <option>
+                Debit Card
+            </option>
+
+            <option>
+                Cash on Delivery
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeModal('checkoutModal')">
+
+            Cancel
+
+        </button>
+
+        <button
+            class="btn btn-success"
+            onclick="placeOrder()">
+
+            💳 Place Order
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<script>
+
+/* =====================================================
+   PRODUCTS DATABASE
+===================================================== */
+
+let products=[
+
+{
+    id:1,
+    name:"Smart Watch Pro",
+    category:"Electronics",
+    price:2999,
+    oldPrice:3999,
+    rating:4.8,
+    icon:"⌚",
+    image:"p1"
+},
+
+{
+    id:2,
+    name:"Premium Sneakers",
+    category:"Fashion",
+    price:2499,
+    oldPrice:3499,
+    rating:4.6,
+    icon:"👟",
+    image:"p2"
+},
+
+{
+    id:3,
+    name:"Wireless Headphones",
+    category:"Electronics",
+    price:1999,
+    oldPrice:2999,
+    rating:4.7,
+    icon:"🎧",
+    image:"p3"
+},
+
+{
+    id:4,
+    name:"Home Coffee Maker",
+    category:"Home",
+    price:3499,
+    oldPrice:4999,
+    rating:4.5,
+    icon:"☕",
+    image:"p4"
+},
+
+{
+    id:5,
+    name:"Luxury Perfume",
+    category:"Beauty",
+    price:1799,
+    oldPrice:2299,
+    rating:4.4,
+    icon:"🧴",
+    image:"p5"
+},
+
+{
+    id:6,
+    name:"Smart Speaker",
+    category:"Electronics",
+    price:2799,
+    oldPrice:3599,
+    rating:4.6,
+    icon:"🔊",
+    image:"p6"
+},
+
+{
+    id:7,
+    name:"Casual T-Shirt",
+    category:"Fashion",
+    price:799,
+    oldPrice:1199,
+    rating:4.3,
+    icon:"👕",
+    image:"p7"
+},
+
+{
+    id:8,
+    name:"Wireless Keyboard",
+    category:"Electronics",
+    price:1499,
+    oldPrice:1999,
+    rating:4.5,
+    icon:"⌨️",
+    image:"p8"
+}
+
+];
+
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
+let services=[
+
+{
+    id:1,
+    name:"Home Cleaning",
+    description:
+        "Professional home cleaning service.",
+    price:799,
+    icon:"🧹"
+},
+
+{
+    id:2,
+    name:"Salon & Spa",
+    description:
+        "Premium salon and spa service.",
+    price:999,
+    icon:"💆"
+},
+
+{
+    id:3,
+    name:"AC Service",
+    description:
+        "Expert AC maintenance and repair.",
+    price:599,
+    icon:"❄️"
+},
+
+{
+    id:4,
+    name:"Car Service",
+    description:
+        "Complete car inspection and service.",
+    price:1299,
+    icon:"🚗"
+},
+
+{
+    id:5,
+    name:"Computer Repair",
+    description:
+        "Laptop and computer repair service.",
+    price:499,
+    icon:"💻"
+},
+
+{
+    id:6,
+    name:"Photography",
+    description:
+        "Professional photography booking.",
+    price:2499,
+    icon:"📸"
+}
+
+];
+
+
+/* =====================================================
+   LOCAL STORAGE DATABASE
+===================================================== */
+
+let cart=
+    JSON.parse(
+        localStorage.getItem("shopCart")
+    ) || [];
+
+
+let orders=
+    JSON.parse(
+        localStorage.getItem("shopOrders")
+    ) || [];
+
+
+let bookings=
+    JSON.parse(
+        localStorage.getItem("shopBookings")
+    ) || [];
+
+
+let wishlist=
+    JSON.parse(
+        localStorage.getItem("shopWishlist")
+    ) || [];
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+window.onload=function(){
+
+    let loggedIn=
+        localStorage.getItem(
+            "shopLoggedIn"
+        );
+
+
+    if(loggedIn==="true"){
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display="none";
+
+    }
+
+
+    document.getElementById(
+        "currentDate"
+    ).innerText=
+        new Date().toLocaleDateString(
+            "en-IN",
+            {
+                weekday:"long",
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        );
+
+
+    renderProducts();
+
+    renderServices();
+
+    renderCart();
+
+    renderOrders();
+
+    renderBookings();
+
+    renderWishlist();
+
+    updateDashboard();
+
+};
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(){
+
+    let email=
+        document.getElementById(
+            "loginEmail"
+        ).value;
+
+
+    let password=
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    if(
+        email==="admin@gmail.com" &&
+        password==="123456"
+    ){
+
+        localStorage.setItem(
+            "shopLoggedIn",
+            "true"
+        );
+
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display="none";
+
+
+        showToast(
+            "Login successful 🎉"
+        );
+
+    }else{
+
+        alert(
+            "Invalid Login!\n\n"+
+            "Email: admin@gmail.com\n"+
+            "Password: 123456"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        localStorage.removeItem(
+            "shopLoggedIn"
+        );
+
+        location.reload();
+
+    }
+
+}
+
+
+/* =====================================================
+   PRODUCTS
+===================================================== */
+
+function renderProducts(){
+
+    let grid=
+        document.getElementById(
+            "productGrid"
+        );
+
+
+    let search=
+        document.getElementById(
+            "productSearch"
+        )?.value.toLowerCase() || "";
+
+
+    let category=
+        document.getElementById(
+            "categoryFilter"
+        )?.value || "all";
+
+
+    let filtered=
+        products.filter(p=>{
+
+            let matchSearch=
+                p.name
+                .toLowerCase()
+                .includes(search);
+
+
+            let matchCategory=
+                category==="all" ||
+                p.category===category;
+
+
+            return matchSearch &&
+                   matchCategory;
+
+        });
+
+
+    grid.innerHTML="";
+
+
+    filtered.forEach(p=>{
+
+        let isWish=
+            wishlist.includes(p.id);
+
+
+        grid.innerHTML+=`
+
+        <div class="product">
+
+            <div class="
+                product-image
+                ${p.image}">
+
+                ${p.icon}
+
+                <button
+                    class="wishlist"
+                    onclick="toggleWishlist(${p.id})">
+
+                    ${isWish?"❤️":"🤍"}
+
+                </button>
+
+            </div>
+
+
+            <div class="product-body">
+
+                <div class="product-category">
+                    ${p.category}
+                </div>
+
+                <div class="product-name">
+                    <b>${p.name}</b>
+                </div>
+
+                <div class="rating">
+                    ⭐ ${p.rating}
+                </div>
+
+                <div class="price">
+
+                    ₹${p.price}
+
+                    <span class="old-price">
+                        ₹${p.oldPrice}
+                    </span>
+
+                </div>
+
+
+                <div class="product-actions">
+
+                    <button
+                        class="btn btn-primary"
+                        style="flex:1"
+                        onclick="addToCart(${p.id})">
+
+                        🛒 Add
+
+                    </button>
+
+                    <button
+                        class="btn btn-success"
+                        onclick="buyNow(${p.id})">
+
+                        Buy
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   ADD TO CART
+===================================================== */
+
+function addToCart(id){
+
+    let item=
+        cart.find(
+            c=>c.id===id
+        );
+
+
+    if(item){
+
+        item.quantity++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            quantity:1
+        });
+
+    }
+
+
+    saveCart();
+
+    renderCart();
+
+    updateDashboard();
+
+    showToast(
+        "Product added to cart 🛒"
+    );
+
+}
+
+
+/* =====================================================
+   BUY NOW
+===================================================== */
+
+function buyNow(id){
+
+    addToCart(id);
+
+    showSection("cart");
+
+}
+
+
+/* =====================================================
+   CART
+===================================================== */
+
+function saveCart(){
+
+    localStorage.setItem(
+        "shopCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+function renderCart(){
+
+    let container=
+        document.getElementById(
+            "cartItems"
+        );
+
+
+    let count=
+        cart.reduce(
+            (sum,c)=>sum+c.quantity,
+            0
+        );
+
+
+    document.getElementById(
+        "cartCount"
+    ).innerText=
+        count+" items";
+
+
+    if(cart.length===0){
+
+        container.innerHTML=`
+
+        <div class="empty">
+
+            🛒
+
+            <h3>
+                Your cart is empty
+            </h3>
+
+            <p>
+                Add products from the store.
+            </p>
+
+            <br>
+
+            <button
+                class="btn btn-primary"
+                onclick="showSection('shop')">
+
+                Start Shopping
+
+            </button>
+
+        </div>
+
+        `;
+
+
+        document.getElementById(
+            "cartSummary"
+        ).style.display="none";
+
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    let subtotal=0;
+
+
+    cart.forEach(item=>{
+
+        let product=
+            products.find(
+                p=>p.id===item.id
+            );
+
+
+        let itemTotal=
+            product.price*
+            item.quantity;
+
+
+        subtotal+=itemTotal;
+
+
+        container.innerHTML+=`
+
+        <div class="cart-item">
+
+            <div class="cart-left">
+
+                <div
+                    class="
+                    cart-icon
+                    ${product.image}">
+
+                    ${product.icon}
+
+                </div>
+
+                <div>
+
+                    <b>
+                        ${product.name}
+                    </b>
+
+                    <small
+                        style="
+                        display:block;
+                        color:var(--muted)">
+
+                        ₹${product.price}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="qty">
+
+                <button
+                    onclick="
+                    changeQuantity(
+                        ${item.id},
+                        -1
+                    )">
+
+                    −
+
+                </button>
+
+                <b>
+                    ${item.quantity}
+                </b>
+
+                <button
+                    onclick="
+                    changeQuantity(
+                        ${item.id},
+                        1
+                    )">
+
+                    +
+
+                </button>
+
+                <button
+                    class="action-btn"
+                    onclick="
+                    removeCartItem(
+                        ${item.id}
+                    )">
+
+                    🗑️
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    let tax=
+        Math.round(
+            subtotal*0.05
+        );
+
+
+    let total=
+        subtotal+
+        tax+
+        50;
+
+
+    document.getElementById(
+        "subtotal"
+    ).innerText=
+        "₹"+subtotal;
+
+
+    document.getElementById(
+        "tax"
+    ).innerText=
+        "₹"+tax;
+
+
+    document.getElementById(
+        "cartTotal"
+    ).innerText=
+        "₹"+total;
+
+
+    document.getElementById(
+        "cartSummary"
+    ).style.display="block";
+
+}
+
+
+function changeQuantity(id,value){
+
+    let item=
+        cart.find(
+            c=>c.id===id
+        );
+
+
+    if(!item) return;
+
+
+    item.quantity+=value;
+
+
+    if(item.quantity<=0){
+
+        cart=
+            cart.filter(
+                c=>c.id!==id
+            );
+
+    }
+
+
+    saveCart();
+
+    renderCart();
+
+    updateDashboard();
+
+}
+
+
+function removeCartItem(id){
+
+    cart=
+        cart.filter(
+            c=>c.id!==id
+        );
+
+
+    saveCart();
+
+    renderCart();
+
+    updateDashboard();
+
+    showToast(
+        "Item removed from cart"
+    );
+
+}
+
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+
+function checkout(){
+
+    if(cart.length===0){
+
+        showToast(
+            "Your cart is empty"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "checkoutModal"
+    ).style.display="flex";
+
+}
+
+
+function placeOrder(){
+
+    let name=
+        document.getElementById(
+            "checkoutName"
+        ).value;
+
+
+    let address=
+        document.getElementById(
+            "checkoutAddress"
+        ).value;
+
+
+    let payment=
+        document.getElementById(
+            "paymentMethod"
+        ).value;
+
+
+    if(
+        !name ||
+        !address
+    ){
+
+        alert(
+            "Please enter your name and address."
+        );
+
+        return;
+
+    }
+
+
+    let total=
+        cart.reduce(
+            (sum,item)=>{
+
+                let p=
+                    products.find(
+                        x=>x.id===item.id
+                    );
+
+                return sum+
+                    p.price*
+                    item.quantity;
+
+            },
+            0
+        );
+
+
+    total=
+        total+
+        50+
+        Math.round(total*.05);
+
+
+    let order={
+
+        id:
+            "ORD"+
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        products:
+            cart.map(
+                item=>{
+
+                    let p=
+                        products.find(
+                            x=>x.id===item.id
+                        );
+
+                    return p.name+
+                        " x"+
+                        item.quantity;
+
+                }
+            ).join(", "),
+
+        amount:total,
+
+        date:
+            new Date()
+            .toLocaleDateString(
+                "en-IN"
+            ),
+
+        status:
+            "Completed",
+
+        customer:name,
+
+        address:address,
+
+        payment:payment
+
+    };
+
+
+    orders.unshift(order);
+
+
+    localStorage.setItem(
+        "shopOrders",
+        JSON.stringify(orders)
+    );
+
+
+    cart=[];
+
+
+    saveCart();
+
+    renderCart();
+
+    renderOrders();
+
+    updateDashboard();
+
+
+    closeModal(
+        "checkoutModal"
+    );
+
+
+    showToast(
+        "Order placed successfully 🎉"
+    );
+
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+function renderOrders(){
+
+    let table=
+        document.getElementById(
+            "ordersTable"
+        );
+
+
+    let recent=
+        document.getElementById(
+            "recentOrders"
+        );
+
+
+    table.innerHTML="";
+
+    recent.innerHTML="";
+
+
+    if(orders.length===0){
+
+        table.innerHTML=`
+
+        <tr>
+
+            <td colspan="6">
+
+                <div class="empty">
+                    📦
+                    <h3>No orders yet</h3>
+                </div>
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    orders.forEach(order=>{
+
+        table.innerHTML+=`
+
+        <tr>
+
+            <td>
+                <b>${order.id}</b>
+            </td>
+
+            <td>
+                ${order.products}
+            </td>
+
+            <td>
+                ${order.date}
+            </td>
+
+            <td>
+                ₹${order.amount}
+            </td>
+
+            <td>
+
+                <span
+                    class="badge completed">
+
+                    ${order.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="
+                    cancelOrder('${order.id}')">
+
+                    Cancel
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    orders.slice(0,5).forEach(order=>{
+
+        recent.innerHTML+=`
+
+        <tr>
+
+            <td>
+                ${order.id}
+            </td>
+
+            <td>
+                ${order.products}
+            </td>
+
+            <td>
+                ₹${order.amount}
+            </td>
+
+            <td>
+
+                <span
+                    class="badge completed">
+
+                    ${order.status}
+
+                </span>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+function cancelOrder(id){
+
+    let order=
+        orders.find(
+            o=>o.id===id
+        );
+
+
+    if(
+        confirm(
+            "Cancel this order?"
+        )
+    ){
+
+        order.status=
+            "Cancelled";
+
+
+        localStorage.setItem(
+            "shopOrders",
+            JSON.stringify(orders)
+        );
+
+
+        renderOrders();
+
+        updateDashboard();
+
+        showToast(
+            "Order cancelled"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
+function renderServices(){
+
+    let grid=
+        document.getElementById(
+            "serviceGrid"
+        );
+
+
+    grid.innerHTML="";
+
+
+    services.forEach(service=>{
+
+        grid.innerHTML+=`
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                ${service.icon}
+            </div>
+
+            <h3>
+                ${service.name}
+            </h3>
+
+            <p>
+                ${service.description}
+            </p>
+
+            <div class="service-price">
+                ₹${service.price}
+            </div>
+
+            <button
+                class="btn btn-primary full"
+                onclick="
+                openBooking(
+                    ${service.id}
+                )">
+
+                📅 Book Now
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   BOOKING
+===================================================== */
+
+function openBooking(id){
+
+    let service=
+        services.find(
+            s=>s.id===id
+        );
+
+
+    document.getElementById(
+        "bookingService"
+    ).value=
+        service.name;
+
+
+    document.getElementById(
+        "bookingModal"
+    ).dataset.serviceId=id;
+
+
+    document.getElementById(
+        "bookingModal"
+    ).style.display="flex";
+
+}
+
+
+function confirmBooking(){
+
+    let modal=
+        document.getElementById(
+            "bookingModal"
+        );
+
+
+    let serviceId=
+        Number(
+            modal.dataset.serviceId
+        );
+
+
+    let service=
+        services.find(
+            s=>s.id===serviceId
+        );
+
+
+    let date=
+        document.getElementById(
+            "bookingDate"
+        ).value;
+
+
+    let time=
+        document.getElementById(
+            "bookingTime"
+        ).value;
+
+
+    let name=
+        document.getElementById(
+            "bookingName"
+        ).value;
+
+
+    let phone=
+        document.getElementById(
+            "bookingPhone"
+        ).value;
+
+
+    if(
+        !date ||
+        !name ||
+        !phone
+    ){
+
+        alert(
+            "Please fill all booking details."
+        );
+
+        return;
+
+    }
+
+
+    let booking={
+
+        id:
+            "BK"+
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        service:
+            service.name,
+
+        date:date,
+
+        time:time,
+
+        amount:
+            service.price,
+
+        status:
+            "Confirmed",
+
+        customer:name,
+
+        phone:phone
+
+    };
+
+
+    bookings.unshift(
+        booking
+    );
+
+
+    localStorage.setItem(
+        "shopBookings",
+        JSON.stringify(bookings)
+    );
+
+
+    renderBookings();
+
+    updateDashboard();
+
+
+    closeModal(
+        "bookingModal"
+    );
+
+
+    showToast(
+        "Booking confirmed 🎉"
+    );
+
+}
+
+
+/* =====================================================
+   BOOKINGS
+===================================================== */
+
+function renderBookings(){
+
+    let table=
+        document.getElementById(
+            "bookingsTable"
+        );
+
+
+    table.innerHTML="";
+
+
+    if(bookings.length===0){
+
+        table.innerHTML=`
+
+        <tr>
+
+            <td colspan="7">
+
+                <div class="empty">
+
+                    📅
+
+                    <h3>
+                        No bookings yet
+                    </h3>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    bookings.forEach(b=>{
+
+        let statusClass=
+            b.status==="Cancelled"
+                ?"cancelled"
+                :"completed";
+
+
+        table.innerHTML+=`
+
+        <tr>
+
+            <td>
+                <b>${b.id}</b>
+            </td>
+
+            <td>
+                ${b.service}
+            </td>
+
+            <td>
+                ${b.date}
+            </td>
+
+            <td>
+                ${b.time}
+            </td>
+
+            <td>
+                ₹${b.amount}
+            </td>
+
+            <td>
+
+                <span
+                    class="
+                    badge
+                    ${statusClass}">
+
+                    ${b.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                ${
+                    b.status!=="Cancelled"
+
+                    ?
+
+                    `<button
+                        class="btn btn-danger"
+                        onclick="
+                        cancelBooking(
+                            '${b.id}'
+                        )">
+
+                        Cancel
+
+                    </button>`
+
+                    :
+
+                    ""
+
+                }
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+function cancelBooking(id){
+
+    let booking=
+        bookings.find(
+            b=>b.id===id
+        );
+
+
+    if(
+        confirm(
+            "Cancel this booking?"
+        )
+    ){
+
+        booking.status=
+            "Cancelled";
+
+
+        localStorage.setItem(
+            "shopBookings",
+            JSON.stringify(bookings)
+        );
+
+
+        renderBookings();
+
+        updateDashboard();
+
+        showToast(
+            "Booking cancelled"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   WISHLIST
+===================================================== */
+
+function toggleWishlist(id){
+
+    if(
+        wishlist.includes(id)
+    ){
+
+        wishlist=
+            wishlist.filter(
+                x=>x!==id
+            );
+
+        showToast(
+            "Removed from wishlist"
+        );
+
+    }else{
+
+        wishlist.push(id);
+
+        showToast(
+            "Added to wishlist ❤️"
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "shopWishlist",
+        JSON.stringify(wishlist)
+    );
+
+
+    renderProducts();
+
+    renderWishlist();
+
+    updateDashboard();
+
+}
+
+
+function renderWishlist(){
+
+    let grid=
+        document.getElementById(
+            "wishlistGrid"
+        );
+
+
+    grid.innerHTML="";
+
+
+    let items=
+        products.filter(
+            p=>wishlist.includes(p.id)
+        );
+
+
+    if(items.length===0){
+
+        grid.innerHTML=`
+
+        <div
+            class="empty"
+            style="grid-column:1/-1">
+
+            ❤️
+
+            <h3>
+                Wishlist is empty
+            </h3>
+
+            <p>
+                Add your favorite products here.
+            </p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach(p=>{
+
+        grid.innerHTML+=`
+
+        <div class="product">
+
+            <div
+                class="
+                product-image
+                ${p.image}">
+
+                ${p.icon}
+
+            </div>
+
+
+            <div class="product-body">
+
+                <div class="product-category">
+                    ${p.category}
+                </div>
+
+                <div class="product-name">
+                    <b>${p.name}</b>
+                </div>
+
+                <div class="price">
+                    ₹${p.price}
+                </div>
+
+                <button
+                    class="btn btn-primary full"
+                    onclick="
+                    addToCart(${p.id})">
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+    let validOrders=
+        orders.filter(
+            o=>o.status!=="Cancelled"
+        );
+
+
+    let validBookings=
+        bookings.filter(
+            b=>b.status!=="Cancelled"
+        );
+
+
+    let spending=
+        validOrders.reduce(
+            (sum,o)=>
+                sum+
+                Number(o.amount),
+            0
+        );
+
+
+    spending+=
+        validBookings.reduce(
+            (sum,b)=>
+                sum+
+                Number(b.amount),
+            0
+        );
+
+
+    document.getElementById(
+        "totalOrders"
+    ).innerText=
+        orders.length;
+
+
+    document.getElementById(
+        "totalBookings"
+    ).innerText=
+        bookings.length;
+
+
+    document.getElementById(
+        "totalSpending"
+    ).innerText=
+        "₹"+
+        spending.toLocaleString();
+
+
+    document.getElementById(
+        "wishlistCount"
+    ).innerText=
+        wishlist.length;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showSection(section){
+
+    let sections=[
+        "dashboard",
+        "shop",
+        "booking",
+        "cart",
+        "orders",
+        "bookings",
+        "wishlist"
+    ];
+
+
+    sections.forEach(s=>{
+
+        document.getElementById(
+            s+"Section"
+        ).style.display="none";
+
+    });
+
+
+    document.getElementById(
+        section+"Section"
+    ).style.display="block";
+
+
+    let titles={
+
+        dashboard:"Dashboard",
+
+        shop:"Shopping Store",
+
+        booking:"Book Services",
+
+        cart:"Shopping Cart",
+
+        orders:"My Orders",
+
+        bookings:"My Bookings",
+
+        wishlist:"Wishlist"
+
+    };
+
+
+    document.getElementById(
+        "pageTitle"
+    ).innerText=
+        titles[section];
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDark(){
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    localStorage.setItem(
+        "shopDark",
+        document.body.classList.contains(
+            "dark"
+        )
+    );
+
+}
+
+
+if(
+    localStorage.getItem(
+        "shopDark"
+    )==="true"
+){
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+function notifications(){
+
+    alert(
+        "🔔 Notifications\n\n"+
+        "• New products available\n"+
+        "• Your recent order is confirmed\n"+
+        "• Booking reminder available\n"+
+        "• Special discount: 20% OFF"
+    );
+
+}
+
+
+/* =====================================================
+   EXPORT ORDERS
+===================================================== */
+
+function exportOrders(){
+
+    if(orders.length===0){
+
+        showToast(
+            "No orders available"
+        );
+
+        return;
+
+    }
+
+
+    let csv=
+        "Order ID,Products,Date,Amount,Status\n";
+
+
+    orders.forEach(o=>{
+
+        csv+=
+            `"${o.id}",`+
+            `"${o.products}",`+
+            `"${o.date}",`+
+            `"${o.amount}",`+
+            `"${o.status}"\n`;
+
+    });
+
+
+    let blob=
+        new Blob(
+            [csv],
+            {
+                type:"text/csv"
+            }
+        );
+
+
+    let url=
+        URL.createObjectURL(blob);
+
+
+    let a=
+        document.createElement("a");
+
+
+    a.href=url;
+
+    a.download=
+        "shopbook-orders.csv";
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+        "Orders exported successfully 📥"
+    );
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal(id){
+
+    document.getElementById(
+        id
+    ).style.display="none";
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    let toast=
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.innerText=message;
+
+    toast.style.display="block";
+
+
+    setTimeout(()=>{
+
+        toast.style.display="none";
+
+    },3000);
+
+}
+
+</script>
+
+</body>
+</html>
